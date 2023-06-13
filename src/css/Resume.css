@@ -1,0 +1,26 @@
+.container {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.form-group {
+	min-width: 300px;
+	width: 350px;
+	max-width: 400px;
+	padding: 3px;
+}
+
+.form-group input {
+	background: rgb(230, 230, 230);
+}
+
+.btn {
+	margin: 6px;
+	padding: 4px 25px;
+}
+
+.form-group label {
+	width: 100%;
+	text-align: left;
+}

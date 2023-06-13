@@ -1,0 +1,7 @@
+.container h1 {
+	margin: 20px 0px;
+}
+.p-y-wrapper > .form-group {
+	min-width: 100px;
+	max-width: 100px;
+}
