@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { WithContext as ReactTags } from "react-tag-input";
 import "../css/Skills.css";
 import { skills } from "../SkillsLlist";
+import { userContext } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const suggestions = skills.map((skill) => {
 	return {
@@ -19,7 +21,13 @@ const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 const SkillForm = () => {
 	const [tags, setTags] = useState([]);
-
+	const navigate = useNavigate();
+	const { userData, setUserData } = useContext(userContext);
+	useEffect(() => {
+		if (tags.length === 0) {
+			setTags(userData.tags);
+		}
+	});
 	const handleDelete = (i) => {
 		setTags(tags.filter((tag, index) => index !== i));
 	};
@@ -43,7 +51,11 @@ const SkillForm = () => {
 
 	function handleSubmit(e) {
 		e.preventDefault();
+		console.log(tags);
+		setUserData({ ...userData, tags: tags });
+		navigate("/generateresume");
 	}
+	console.log(userData);
 
 	return (
 		<div className="container mt-5">

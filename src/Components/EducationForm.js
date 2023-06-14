@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "../css/Education.css";
+import { userContext } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const EducationForm = () => {
 	const [educationDetails, setEducationDetails] = useState([{ institute: "", startYear: "", endYear: "", designation: "", percentage: "" }]);
+	const navigate = useNavigate();
 
 	const currentYear = new Date().getFullYear();
 	// const currentYear = 2024;
 	const years = Array.from(new Array(currentYear - 1960 + 4), (_, index) => 1960 + index);
+
+	const { userData, setUserData } = useContext(userContext);
+
+	useEffect(() => {
+		if (educationDetails[0].institute === "") {
+			setEducationDetails(userData.educationDetails);
+		}
+	}, []);
 
 	const handleInputChange = (index, e) => {
 		const { name, value } = e.target;
@@ -16,7 +27,7 @@ const EducationForm = () => {
 	};
 
 	const handleAddFields = () => {
-		setEducationDetails([...educationDetails, { institute: "", startYear: "", Endyear: "", designation: "", percentage: "" }]);
+		setEducationDetails([...educationDetails, { institute: "", startYear: "", endYear: "", designation: "", percentage: "" }]);
 	};
 
 	const handleRemoveFields = (index) => {
@@ -27,6 +38,8 @@ const EducationForm = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		setUserData({ ...userData, educationDetails: educationDetails });
+		navigate("/experienceInfo");
 	};
 
 	return (
@@ -43,8 +56,8 @@ const EducationForm = () => {
 							<div className="p-y-wrapper d-flex justify-content-between">
 								<div className="form-group">
 									<label htmlFor={`startYear${index}`}>From</label>
-									{/* <input type="text" id={`startYear${index}`} className="form-control" name="startYear" value={education.startYear} onChange={(e) => handleInputChange(index, e)} required /> */}
 									<select id={`startYear${index}`} className="form-control" name="startYear" value={education.startYear} onChange={(e) => handleInputChange(index, e)} required>
+										<option value="">Select Year</option>
 										{years.map((year) => (
 											<option key={year} value={year}>
 												{year}
@@ -54,14 +67,14 @@ const EducationForm = () => {
 								</div>
 								<div className="form-group" style={{ marginRight: "10px" }}>
 									<label htmlFor={`endYear${index}`}>To</label>
-									<select id={`endYear${index}`} className="form-control" name="endYear" value={education.startYear} onChange={(e) => handleInputChange(index, e)} required>
+									<select id={`endYear${index}`} className="form-control" name="endYear" value={education.endYear} onChange={(e) => handleInputChange(index, e)} required>
+										<option value="">Select Year</option>
 										{years.map((year) => (
 											<option key={year} value={year}>
 												{year}
 											</option>
 										))}
 									</select>
-									{/* <input type="text" id={`endYear${index}`} className="form-control" name="endYear" value={education.endYear} onChange={(e) => handleInputChange(index, e)} required /> */}
 								</div>
 								<div className="form-group">
 									<label htmlFor={`percentage${index}`}>Percentage</label>
